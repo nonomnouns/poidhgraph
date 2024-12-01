@@ -1,0 +1,44 @@
+specVersion: 0.0.5
+description: POIDH Bounty Platform Subgraph
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: PoidhContract
+    network: {{ network }}
+    source:
+      address: "{{ address }}"
+      abi: PoidhContract
+      startBlock: {{ startBlock }}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Bounty
+        - Claim
+        - User
+        - ParticipationBounty
+      abis:
+        - name: PoidhContract
+          file: ./abis/{{ file }}.json
+      eventHandlers:
+        - event: BountyCreated(uint256,address,string,string,uint256,uint256)
+          handler: handleBountyCreated
+        - event: BountyCancelled(uint256,address)
+          handler: handleBountyCancelled
+        - event: BountyJoined(uint256,address,uint256)
+          handler: handleBountyJoined
+        - event: WithdrawFromOpenBounty(uint256,address,uint256)
+          handler: handleWithdrawFromOpenBounty
+        - event: ClaimCreated(uint256,address,uint256,address,string,string,uint256)
+          handler: handleClaimCreated
+        - event: ClaimAccepted(uint256,uint256,address,address,uint256)
+          handler: handleClaimAccepted
+        - event: ResetVotingPeriod(uint256)
+          handler: handleResetVotingPeriod
+        - event: ClaimSubmittedForVote(uint256,uint256)
+          handler: handleClaimSubmittedForVote
+        - event: VoteClaim(address,uint256,uint256)
+          handler: handleVoteClaim
+      file: ./src/mappings.ts

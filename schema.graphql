@@ -1,0 +1,49 @@
+type Bounty @entity {
+  id: ID!
+  chainId: Int!
+  title: String!
+  description: String!
+  amount: String!
+  issuer: User!
+  inProgress: Boolean!
+  isJoinedBounty: Boolean!
+  isCanceled: Boolean!
+  isBanned: Boolean!
+  isMultiplayer: Boolean
+  isVoting: Boolean!
+  deadline: BigInt
+  claims: [Claim!]! @derivedFrom(field: "bounty")
+  participants: [ParticipationBounty!]! @derivedFrom(field: "bounty")
+  createdAt: BigInt!
+}
+
+type Claim @entity {
+  id: ID!
+  chainId: Int!
+  title: String!
+  description: String!
+  url: String!
+  issuer: User!
+  bounty: Bounty!
+  owner: User!
+  isBanned: Boolean!
+  isAccepted: Boolean!
+}
+
+type User @entity {
+  id: ID!
+  address: String!
+  ens: String
+  degenName: String
+  bounties: [Bounty!]! @derivedFrom(field: "issuer")
+  claims: [Claim!]! @derivedFrom(field: "issuer")
+  participations: [ParticipationBounty!]! @derivedFrom(field: "user")
+}
+
+type ParticipationBounty @entity {
+  id: ID!
+  user: User!
+  bounty: Bounty!
+  chainId: Int!
+  amount: String!
+}

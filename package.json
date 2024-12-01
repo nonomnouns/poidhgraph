@@ -1,0 +1,28 @@
+{
+  "name": "poidh-subgraph",
+  "version": "1.0.0",
+  "description": "Goldsky Graph for Poidh Contract",
+  "license": "UNLICENSED",
+  "main": "index.js",
+  "scripts": {
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "prepare:base": "mustache config/base.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:arbitrum": "mustache config/arbitrum.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:degen": "mustache config/degen.json subgraph.template.yaml > subgraph.yaml",
+    "deploy:base": "npm run prepare:base && goldsky subgraph deploy poidh-base-api/1",
+    "deploy:arbitrum": "npm run prepare:arbitrum && goldsky subgraph deploy poidh-arb-api/1",
+    "deploy:degen": "npm run prepare:degen && goldsky subgraph deploy poidh-degen-api/1",
+    "deploy:all": "npm run deploy:base && npm run deploy:arbitrum && npm run deploy:degen"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "0.51.0",
+    "@graphprotocol/graph-ts": "0.31.0",
+    "typescript": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "ts-node": "^10.9.0",
+    "mustache": "^4.0.1"
+  }
+}

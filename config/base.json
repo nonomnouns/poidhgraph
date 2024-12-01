@@ -1,0 +1,7 @@
+{
+  "network": "base",
+  "address": "0xb502c5856F7244DccDd0264A541Cc25675353D39",
+  "startBlock": 14542727,
+  "file": "PoidhContract",
+  "name": "poidh-base-api"
+}
